@@ -1,0 +1,98 @@
+<nav class="sidebar dark_sidebar">
+    <div class="logo d-flex justify-content-between">
+        <a class="large_logo" href="/admin/"><img th:src="@{img/logo_white.png}" alt></a>
+        <a class="small_logo" href="/admin/"><img th:src="@{img/mini_logo.png}" alt></a>
+        <div class="sidebar_close_icon d-lg-none">
+            <i class="ti-close"></i>
+        </div>
+    </div>
+    <ul id="sidebar_menu">
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/3.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>Pages</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="">Login</a></li>
+                <li><a href="">Register</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/4.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>Admins</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="">Admin List</a></li>
+                <li><a href="">Add New Admin</a></li>
+            </ul>
+        </li>
+        <!--User     -->
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/5.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>Users</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="/list-user">Users List</a></li>
+                <li><a href="">Add New User</a></li>
+            </ul>
+        </li>
+
+        <li class>
+            <a href="" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/7.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>invoice</span>
+                </div>
+            </a>
+        </li>
+
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/13.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>Products</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="/list-product">List Product</a></li>
+                <li><a href="">Product Details</a></li>
+                <li><a href="">Order Management</a></li>
+            </ul>
+        </li>
+
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img th:src="@{img/menu-icon/13.svg}" alt>
+                </div>
+                <div class="nav_title">
+                    <span>Category</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="/list-category">List Category</a></li>
+                <li><a href="/add-category">Add Category</a></li>
+            </ul>
+        </li>
+
+
+    </ul>
+</nav>

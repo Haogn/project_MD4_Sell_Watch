@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="layout/admin/head.html"></th:block>
+<body>
+<!--Start Silebar-->
+<th:block th:insert="layout/admin/silebar.html"></th:block>
+<!--Start Silebar-->
+
+<section class="main_content dashboard_part large_header_bg">
+    <!--Start Nav-->
+    <th:block th:insert="layout/admin/nav.html"></th:block>
+    <!--End Nav-->
+
+    <!--Start list-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="text-center">List Category</h1>
+                <table class="table">
+                    <thead>
+                    <tr class="bg-dark text-white">
+                        <th>Category Id</th>
+                        <th>Category Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${list}">
+                        <td th:text="${item.categoryId}"></td>
+                        <td th:text="${item.categoryName}"></td>
+                        <td th:text="${item.status?'Mở bán':'Không bán'}"></td>
+                        <td>
+                            <a th:href="@{'/edit-category/' + ${item.categoryId}}" type="button" class="btn btn-outline-success">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            <a th:href="@{'/delete-category/' + ${item.categoryId}}" type="button" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="/add-category" type="button" class="btn btn-outline-dark">Create Category</a>
+            </div>
+        </div>
+    </div>
+    <!--End list-->
+</section>
+<th:block th:insert="layout/admin/script.html"></th:block>
+</body>
+</html>
