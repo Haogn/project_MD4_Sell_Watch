@@ -145,4 +145,86 @@ public class ProductDAO_IPML implements  ProductDAO_ITF{
         }
         return isCheck;
     }
+
+    public List<Products> findAllProductByCategory(Integer id ) {
+        List<Products> list = new ArrayList<>();
+        Connection connection = null ;
+
+        try {
+            connection = ConnectionBD.openConnection();
+            CallableStatement callableStatement = connection.prepareCall("{CALL PROC_SHOW_PRODUCT_BY_CATEGORY(?)}");
+            callableStatement.setInt(1,id);
+            ResultSet rs = callableStatement.executeQuery();
+            while (rs.next()) {
+                Products products = new Products();
+                products.setProductId(rs.getInt("product_id"));
+                products.setProductName(rs.getString("product_name"));
+                Category category = categoryDAO_itf.findById(rs.getInt("category_id"));
+                products.setCategory(category);
+                products.setImage(rs.getString("image"));
+                products.setPrice(rs.getDouble("price"));
+                products.setDescription(rs.getString("description"));
+                products.setQuantity(rs.getInt("quantity"));
+                products.setStatus(rs.getBoolean("status"));
+                list.add(products);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionBD.closeConnection(connection);
+        }
+
+        return list ;
+    }
+
+    public Integer countProduct() {
+        Connection connection = null;
+        int count = 0 ;
+        try {
+            connection = ConnectionBD.openConnection();
+            CallableStatement callableStatement = connection.prepareCall("{CALL PROC_COUNT_PRODUCT()}");
+            ResultSet resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                count= resultSet.getInt("total_product");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionBD.closeConnection(connection);
+        }
+
+        return count  ;
+    }
+    public List<Products> findAllProductPage(int offset , int size ) {
+        List<Products> list = new ArrayList<>();
+        Connection connection = null  ;
+
+        try {
+            connection = ConnectionBD.openConnection();
+            CallableStatement callableStatement = connection.prepareCall("{CALL PROC_GET_ALL_PRODUCT_PAGE(?,?)}");
+            callableStatement.setInt(1, offset);
+            callableStatement.setInt(2, size);
+            ResultSet rs = callableStatement.executeQuery();
+            while (rs.next()) {
+                Products products = new Products();
+                products.setProductId(rs.getInt("product_id"));
+                products.setProductName(rs.getString("product_name"));
+                Category category = categoryDAO_itf.findById(rs.getInt("category_id"));
+                products.setCategory(category);
+                products.setImage(rs.getString("image"));
+                products.setPrice(rs.getDouble("price"));
+                products.setDescription(rs.getString("description"));
+                products.setQuantity(rs.getInt("quantity"));
+                products.setStatus(rs.getBoolean("status"));
+                list.add(products);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionBD.closeConnection(connection);
+        }
+
+
+        return list ;
+    }
 }

@@ -32,6 +32,7 @@ public class AdminProductController {
 
     @Value("${path}")
     private String pathUpload ;
+
     // TODO : list produc
     @GetMapping("/list-product")
     public String showListProduct(Model model){

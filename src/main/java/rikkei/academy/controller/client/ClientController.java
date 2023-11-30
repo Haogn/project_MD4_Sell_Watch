@@ -6,12 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rikkei.academy.dto.request.UserRegisterDTO;
+import rikkei.academy.dto.response.RespCategoryDTO;
 import rikkei.academy.dto.response.RespProductDTO;
 import rikkei.academy.dto.response.RespUserDTO;
 import rikkei.academy.model.entity.User;
-import rikkei.academy.model.service.ProductService_ITF;
-import rikkei.academy.model.service.UserService_IMPL;
-import rikkei.academy.model.service.UserService_ITF;
+import rikkei.academy.model.service.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,25 +28,46 @@ public class ClientController {
     private UserService_ITF userService_itf ;
     @Autowired
     private ProductService_ITF productService_itf;
+    @Autowired
+    private ProductService_IMPL productService_impl ;
+    @Autowired
+    private CategoryService_ITF categoryService_itf;
     // TODO : trang chu
     @GetMapping("")
-    public String index(){
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "8") int size){
+        List<RespCategoryDTO> listCategory = categoryService_itf.findAll();
+        model.addAttribute("listCategory" , listCategory);
+        int totalProduct = productService_impl.countProduct();
+        int totalPage = (int) Math.ceil((double) totalProduct /size) ;
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", totalPage);
+        List<RespProductDTO> listProduct = productService_impl.findAllProductPage(page,size);
+        model.addAttribute("listProduct",listProduct);
+        return "client/index";
+    }
+
+    // TODO : list product by category
+    @GetMapping("/showProductByCategory/{id}")
+    public String showProductByCategory(@PathVariable Integer id ) {
         return "client/index";
     }
 
     // TODO : danh sach san pham
     @GetMapping("/list-watch")
-    public String showListWatch(Model model){
-        List<RespProductDTO> list = productService_itf.findAll();
+    public String showListWatch(Model model,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "8") int size){
+        int totalProduct = productService_impl.countProduct();
+        int totalPage = (int) Math.ceil((double) totalProduct /size) ;
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", totalPage);
+        List<RespProductDTO> list = productService_impl.findAllProductPage(page,size) ;
         model.addAttribute("list",list);
         return "client/list-watch";
     }
     // TODO : chi tiet san pham
-//    @GetMapping("/watch-detail")
-//    public String showWatchDetail(){
-//
-//        return "client/watch-detail";
-//    }
     @GetMapping("/watch-detail/{id}")
     public String showWatchDetail(@PathVariable Integer id , Model model){
         RespProductDTO product = productService_itf.findById(id) ;
