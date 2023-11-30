@@ -1,11 +1,13 @@
 package rikkei.academy.config;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,7 +20,10 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "rikkei.academy")
+@PropertySource("classpath:config.properties")
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+    @Value("${path}")
+    private String pathUpload ;
     private ApplicationContext applicationContext;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -61,7 +66,13 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**", "/fonts/**","/images/**","/js/**", "/vendors/**", "/img/**")
+        registry.addResourceHandler("/css/**",
+                        "/fonts/**",
+                        "/images/**",
+                        "/js/**",
+                        "/vendors/**",
+                        "/img/**",
+                        "/uploads/**")
                 .addResourceLocations("classpath:assets/css/",
                         "classpath:assets/fonts/",
                         "classpath:assets/images/",
@@ -69,7 +80,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                         "classpath:assetsAdmin/css/",
                         "classpath:assetsAdmin/img/",
                         "classpath:assetsAdmin/js/",
-                        "classpath:assetsAdmin/vendors/" );
+                        "classpath:assetsAdmin/vendors/",
+                        "file:"+pathUpload);
     }
 
 //    @Override

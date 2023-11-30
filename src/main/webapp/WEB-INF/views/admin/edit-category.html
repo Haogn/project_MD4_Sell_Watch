@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-6 mx-auto">
                 <h1 class="text-center">Edit Category</h1>
-                <form action="/edit-category/" method="post" th:object="${category}">
+                <form th:object="${category}" th:action="'/update-category/'+${category.categoryId}" method="post" >
                     <div class="form-group">
                         <label for="categoryName">Category Name</label>
                         <input th:field="*{categoryName}" type="text" class="form-control" id="categoryName" name="categoryName"
@@ -32,16 +32,16 @@
                     <div class="form-group">
                         <label>Status</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="language1" value="1" th:checked="${category.status == 1}" />
+                            <input class="form-check-input" type="radio" th:field="*{status}" id="language1" value="1" />
                             <label class="form-check-label">Open</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="language2" value="0" th:checked="${category.status == 0}" />
+                            <input class="form-check-input" type="radio" th:field="*{status}" id="language2" value="0" />
                             <label class="form-check-label">Close</label>
                         </div>
                         <small th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="form-text text-danger"></small>
                     </div>
-                    <button type="submit" class="btn btn-outline-dark">Update Category</button>
+                    <button type="submit" class="btn btn-outline-dark">Update</button>
                 </form>
             </div>
         </div>

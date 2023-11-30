@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rikkei.academy.dto.request.UserRegisterDTO;
+import rikkei.academy.dto.response.RespProductDTO;
 import rikkei.academy.dto.response.RespUserDTO;
 import rikkei.academy.model.entity.User;
+import rikkei.academy.model.service.ProductService_ITF;
 import rikkei.academy.model.service.UserService_IMPL;
 import rikkei.academy.model.service.UserService_ITF;
 
@@ -23,17 +25,48 @@ import java.util.List;
 
 public class ClientController {
     @Autowired
-    private UserService_IMPL userServiceImpl;
+//    private UserService_IMPL userServiceImpl;
+    private UserService_ITF userService_itf ;
+    @Autowired
+    private ProductService_ITF productService_itf;
     // TODO : trang chu
-    @RequestMapping("")
+    @GetMapping("")
     public String index(){
         return "client/index";
     }
 
     // TODO : danh sach san pham
-    @RequestMapping("/list-watch")
-    public String showListWatch(){
+    @GetMapping("/list-watch")
+    public String showListWatch(Model model){
+        List<RespProductDTO> list = productService_itf.findAll();
+        model.addAttribute("list",list);
         return "client/list-watch";
+    }
+    // TODO : chi tiet san pham
+//    @GetMapping("/watch-detail")
+//    public String showWatchDetail(){
+//
+//        return "client/watch-detail";
+//    }
+    @GetMapping("/watch-detail/{id}")
+    public String showWatchDetail(@PathVariable Integer id , Model model){
+        RespProductDTO product = productService_itf.findById(id) ;
+        model.addAttribute("product", product);
+        List<RespProductDTO> list = productService_itf.findAll();
+        model.addAttribute("list",list);
+        return "client/watch-detail";
+    }
+    // TODO : giỏ hàng Cart
+    @GetMapping("/cart")
+    public String cart(){
+        return "client/cart";
+    }
+
+
+    @GetMapping("/wishlist")
+    public String wishlistProduct(Model model){
+
+        return "client/wishlist";
     }
 
     // TODO : login
@@ -55,7 +88,7 @@ public class ClientController {
     public String postLoginClient(@ModelAttribute("user") UserRegisterDTO user,
                                   HttpSession httpSession, HttpServletRequest request, HttpServletResponse response,
                                   @RequestParam(required = false, name = "checked") Boolean isCheck){
-        RespUserDTO userLogin = userServiceImpl.login(user);
+        RespUserDTO userLogin = userService_itf.login(user);
 
         if (userLogin != null) {
             httpSession.setAttribute("user", userLogin);
@@ -91,7 +124,7 @@ public class ClientController {
     @PostMapping("/register")
     public String postRegisterClient(@Valid @ModelAttribute("user") UserRegisterDTO user,
                                       BindingResult result){
-        List<RespUserDTO> list = userServiceImpl.findAll();
+        List<RespUserDTO> list = userService_itf.findAll();
         boolean isCheck = !result.hasErrors() && user.getPassword().equals(user.getConfirmPassword());
         System.out.println(isCheck);
         if (isCheck) {
@@ -101,22 +134,12 @@ public class ClientController {
                     return "client/register";
                 }
             }
-            userServiceImpl.create(user);
+            userService_itf.create(user);
             return "client/login";
         }
         return "client/register";
     }
 
 
-    // TODO : giỏ hàng Cart
-    @RequestMapping("/cart")
-    public String cart(){
-        return "client/cart";
-    }
 
-    // TODO : chi tiet don hang
-    @RequestMapping("/watch-detail")
-    public String showWatchDetail(){
-        return "client/watch-detail";
-    }
 }

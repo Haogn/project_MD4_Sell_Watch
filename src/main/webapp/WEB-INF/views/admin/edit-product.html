@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Create Product</title>
+    <!-- Thêm các thẻ head cần thiết -->
+    <th:block th:insert="layout/admin/head.html"></th:block>
+</head>
+
+<body>
+<!--Start Sidebar-->
+<th:block th:insert="layout/admin/silebar.html"></th:block>
+<!--Start Sidebar-->
+
+<section class="main_content dashboard_part large_header_bg">
+    <!--Start Nav-->
+    <th:block th:insert="layout/admin/nav.html"></th:block>
+    <!--End Nav-->
+
+    <!--Start list-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <h1 class="text-center">Create Product</h1>
+                <form th:object="${product}" th:action="'/update-product/'+${product.productId}" method="post"  enctype="multipart/form-data" >
+                    <div class="form-group">
+                        <label for="productId">ProductID</label>
+                        <input th:field="*{productId}"  class="form-control" id="productId" name="productId" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input th:field="*{productName}" type="text" class="form-control" id="productName" name="productName"
+                               placeholder="Product Name" />
+                        <small th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="">Category</label>
+                        <select th:field="*{category.categoryId}"  class="form-control" id="">
+                            <option th:each="item : ${category}" th:value="${item.categoryId}" th:text="${item.categoryName}"></option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="image">image</label>
+                        <input type="file" class="form-control" id="image" th:name="image-Update" />
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input th:field="*{price}" type="text" class="form-control" id="price" name="price" placeholder="Price" />
+                        <small th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea th:field="*{description}" type="tex" class="form-control" id="description" name="description" placeholder="Description"></textarea>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input th:field="*{quantity}" type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" min="0" />
+                        <small th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" th:field="*{status}" id="language1" value="1" />
+                            <label class="form-check-label">Open</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" th:field="*{status}" id="language2" value="0" />
+                            <label class="form-check-label">Close</label>
+                        </div>
+                        <small th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="form-text text-danger"></small>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--End list-->
+</section>
+
+<!-- Thêm thẻ head còn lại và các script cần thiết -->
+<th:block th:insert="layout/admin/script.html"></th:block>
+</body>
+
+</html>

@@ -2,6 +2,7 @@
 <html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 
+
 <!-- Mirrored from htmldemo.net/ruiz/ruiz/product-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Nov 2023 01:43:54 GMT -->
 <th:block th:insert="layout/client/head.html"></th:block>
 
@@ -31,51 +32,12 @@
     <!-- breadcrumb-area end -->
 
     <!-- main-content-wrap start -->
-    <div class="main-content-wrap shop-page section-ptb">
+    <div class="main-content-wrap shop-page section-ptb" >
         <div class="container">
-            <div class="row product-details-inner">
-                <div class="col-lg-5 col-md-6">
+            <div class="row product-details-inner" >
+                <div class="col-lg-5 col-md-6" th:object="${product}" >
                     <!-- Product Details Left -->
-                    <div class="product-large-slider">
-                        <div class="pro-large-img img-zoom">
-                            <img th:src="@{/images/product/product-01.png}" alt="product-details" />
-<!--                            <a href="assets/images/product/product-01.png}" data-fancybox="images"><i class="fa fa-search"></i></a>-->
-                        </div>
-                        <div class="pro-large-img img-zoom">
-                            <img th:src="@{/images/product/product-02.png}" alt="product-details" />
-<!--                            <a href="assets/images/product/product-02.png}" data-fancybox="images"><i class="fa fa-search"></i></a>-->
-                        </div>
-                        <div class="pro-large-img img-zoom">
-                            <img th:src="@{/images/product/product-03.png}" alt="product-details" />
-<!--                            <a href="assets/images/product/product-03.png}" data-fancybox="images"><i class="fa fa-search"></i></a>-->
-                        </div>
-                        <div class="pro-large-img img-zoom">
-                            <img th:src="@{/images/product/product-04.png}" alt="product-details" />
-<!--                            <a href="assets/images/product/product-04.png}" data-fancybox="images"><i class="fa fa-search"></i></a>-->
-                        </div>
-                        <div class="pro-large-img img-zoom">
-                            <img th:src="@{/images/product/product-05.png}" alt="product-details" />
-<!--                            <a href="assets/images/product/product-05.png}" data-fancybox="images"><i class="fa fa-search"></i></a>-->
-                        </div>
-
-                    </div>
-                    <div class="product-nav">
-                        <div class="pro-nav-thumb">
-                            <img th:src="@{/images/product/product-01.png}" alt="product-details" />
-                        </div>
-                        <div class="pro-nav-thumb">
-                            <img th:src="@{/images/product/product-02.png}" alt="product-details" />
-                        </div>
-                        <div class="pro-nav-thumb">
-                            <img th:src="@{/images/product/product-03.png}" alt="product-details" />
-                        </div>
-                        <div class="pro-nav-thumb">
-                            <img th:src="@{/images/product/product-04.png}" alt="product-details" />
-                        </div>
-                        <div class="pro-nav-thumb">
-                            <img th:src="@{/images/product/product-05.png}" alt="product-details" />
-                        </div>
-                    </div>
+                        <img alt="" th:src="@{'uploads/product/'+ *{image} }">
                     <!--// Product Details Left -->
                 </div>
 
@@ -125,9 +87,9 @@
                             <div class="share-product-socail-area">
                                 <p>Share this product</p>
                                 <ul class="single-product-share">
-                                    <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa-brands fa-square-pinterest"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                                 </ul>
                             </div>
                         </div>

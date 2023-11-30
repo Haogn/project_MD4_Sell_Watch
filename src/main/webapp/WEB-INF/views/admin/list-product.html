@@ -18,20 +18,42 @@
                 <h1 class="text-center">List Product</h1>
                 <table class="table">
                     <thead>
-                    <tr class="bg-dark text-white">
-                        <th>Product Id</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Image</th>
-                        <th>Category</th>
-                        <th>Action</th>
+                    <tr class="bg-dark text-white text-center">
+                        <th style="width: 80px">Id</th>
+                        <th style="width: 120px">Name</th>
+                        <th style="width: 120px">Category</th>
+                        <th style="width: 160px">Image</th>
+                        <th style="width: 120px">Price</th>
+                        <th style="width: 400px">Description</th>
+                        <th style="width: 120px">Quantity</th>
+                        <th style="width: 120px">Status</th>
+                        <th style="width: 120px">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-
+                    <tr th:each="item : ${list}">
+                        <td th:text="${item.productId}"></td>
+                        <td th:text="${item.productName}"></td>
+                        <td th:text="${item.category.categoryName}"></td>
+                        <td>
+                            <img alt="" th:src="@{'uploads/product/'+${item.image}}" style="width: 150px; height: 150px;">
+                        </td>
+                        <td th:text="${item.price}"></td>
+                        <td th:text="${item.description}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.status}?'Open':'Close'"></td>
+                        <td>
+                            <a th:href="@{'/edit-product/' + ${item.productId}}" type="button" class="btn btn-outline-success">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            <a th:href="@{'/delete-product/' + ${item.productId}}" type="button" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-                <a href="" type="button" class="btn btn-outline-dark">Create Product</a>
+                <a href="/add-product" type="button" class="btn btn-outline-dark">Create Product</a>
             </div>
         </div>
     </div>

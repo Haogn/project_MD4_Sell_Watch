@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Create Product</title>
+    <!-- Thêm các thẻ head cần thiết -->
+    <th:block th:insert="layout/admin/head.html"></th:block>
+</head>
+
+<body>
+<!--Start Sidebar-->
+<th:block th:insert="layout/admin/silebar.html"></th:block>
+<!--Start Sidebar-->
+
+<section class="main_content dashboard_part large_header_bg">
+    <!--Start Nav-->
+    <th:block th:insert="layout/admin/nav.html"></th:block>
+    <!--End Nav-->
+
+    <!--Start list-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <h1 class="text-center">Create Product</h1>
+                <form action="/add-product" method="post" th:object="${product}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input th:field="*{productName}" type="text" class="form-control" id="productName"
+                               name="productName"
+                               placeholder="Product Name"/>
+                        <small th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                               class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="">Category</label>
+                        <select th:field="*{category.categoryId}" class="form-control" id="">
+                            <option th:each="item : ${category}" th:value="${item.categoryId}"
+                                    th:text="${item.categoryName}"></option>
+                        </select>
+                        <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}"
+                               class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="image">image</label>
+                        <input type="file" class="form-control" id="image" th:name="fileImage"/>
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="images">images</label>-->
+<!--                        <input type="file" class="form-control" id="images" th:name="fileImages" multiple/>-->
+<!--                    </div>-->
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input th:field="*{price}" type="text" class="form-control" id="price" name="price"
+                               placeholder="Price"/>
+                        <small th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                               class="form-text text-danger"></small>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea th:field="*{description}" type="tex" class="form-control" id="description"
+                                  name="description" placeholder="Description"></textarea>
+                    </div>
+                    <!-- -->
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input th:field="*{quantity}" type="number" class="form-control" id="quantity" name="quantity"
+                               placeholder="quantity" min="0"/>
+                        <small th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                               class="form-text text-danger"></small>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">Add New</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--End list-->
+</section>
+
+<!-- Thêm thẻ head còn lại và các script cần thiết -->
+<th:block th:insert="layout/admin/script.html"></th:block>
+</body>
+
+</html>

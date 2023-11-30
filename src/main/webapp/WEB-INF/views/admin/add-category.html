@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-6 mx-auto">
                 <h1 class="text-center">Create Category</h1>
-                <form action="/add-category" method="post" th:object="${category}">
+                <form action="/add-category" method="post" th:object="${category}" >
                     <div class="form-group">
                         <label for="categoryName">Category Name</label>
                         <input th:field="*{categoryName}" type="text" class="form-control" id="categoryName" name="categoryName"

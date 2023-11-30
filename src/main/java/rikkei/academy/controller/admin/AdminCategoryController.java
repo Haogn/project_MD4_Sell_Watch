@@ -59,9 +59,10 @@ public class AdminCategoryController {
         return "admin/edit-category";
     }
 
-    @PostMapping("/edit-category/{id}")
+    @PostMapping("/update-category/{id}")
     public String postEditCategory(@PathVariable Integer id ,
                                    @ModelAttribute("category") CategoryDTO categoryDTO){
+        categoryService_itf.update(id, categoryDTO);
         return "redirect:/list-category";
     }
 }
