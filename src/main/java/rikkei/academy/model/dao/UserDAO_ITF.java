@@ -13,4 +13,5 @@ public interface UserDAO_ITF {
     Boolean Update(Integer id) ;
      User login(User user) ;
      User loginAdmin(User user);
+
 }

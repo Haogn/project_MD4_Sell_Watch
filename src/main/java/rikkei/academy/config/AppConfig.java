@@ -84,9 +84,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                         "file:"+pathUpload);
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/admin/**");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/admin/**") ;
+        registry.addInterceptor(new CartInterceptor()).addPathPatterns("/cart/**") ;
+    }
+
 
 }

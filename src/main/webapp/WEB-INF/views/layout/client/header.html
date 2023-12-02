@@ -27,7 +27,7 @@
                     <div class="top-info-wrap text-end">
                         <ul class="my-account-container">
                             <li class="account-dropdown">
-                                <p style="cursor: pointer" id="myAccountLink"><i class="fa-solid fa-user-tie"></i> My account</p>
+                                <p style="cursor: pointer" id="myAccountLink" th:text="${session.user != null ? session.user.userName :'Account'}"> </p>
                                 <div class="account-dropdown-content">
                                     <ul id="accountDropdown">
                                         <li value="login">

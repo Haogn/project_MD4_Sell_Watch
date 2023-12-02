@@ -24,6 +24,7 @@ public class UserDAO_IMPL implements UserDAO_ITF{
             ResultSet rs = callableStatement.executeQuery();
             while (rs.next()) {
                 User user = new User();
+                user.setUserId(rs.getInt("user_id"));
                 user.setUserName(rs.getString("user_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
@@ -50,6 +51,7 @@ public class UserDAO_IMPL implements UserDAO_ITF{
             callableStatement.setInt(1,id);
             ResultSet rs = callableStatement.executeQuery();
             while (rs.next()) {
+                user.setUserId(rs.getInt("user_id"));
                 user.setUserName(rs.getString("user_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));

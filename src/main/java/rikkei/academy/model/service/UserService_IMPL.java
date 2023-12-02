@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rikkei.academy.dto.request.UserRegisterDTO;
 import rikkei.academy.dto.response.RespUserDTO;
+import rikkei.academy.model.dao.CartDAO_ITF;
 import rikkei.academy.model.dao.UserDAO_IMPL;
 import rikkei.academy.model.dao.UserDAO_ITF;
+import rikkei.academy.model.entity.Cart;
 import rikkei.academy.model.entity.User;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +23,10 @@ public class UserService_IMPL implements UserService_ITF{
 
     @Autowired
     private UserDAO_ITF userDAO_itf;
+    @Autowired
+    private CartDAO_ITF cartDAOItf;
+    @Autowired
+    private HttpSession httpSession ;
 
     @Override
     public List<RespUserDTO> findAll() {
@@ -44,7 +51,7 @@ public class UserService_IMPL implements UserService_ITF{
         BCryptPass = BCrypt.hashpw(BCryptPass,BCrypt.gensalt(12));
         user.setPassword(BCryptPass);
         modelMapper = new ModelMapper();
-        return userDAO_itf.create(modelMapper.map(user, User.class));
+        return (userDAO_itf.create(modelMapper.map(user, User.class))) ;
     }
 
     @Override
@@ -58,8 +65,15 @@ public class UserService_IMPL implements UserService_ITF{
     }
 
     @Override
-    public RespUserDTO login(UserRegisterDTO user) {
+    public RespUserDTO login(UserRegisterDTO userRegisterDTO) {
         ModelMapper modelMapper = new ModelMapper();
+        User user = userDAO_itf.login(modelMapper.map(userRegisterDTO,User.class));
+        // check cart co ton tai hay k
+        if (cartDAOItf.findByIdUser(user.getUserId()) == null) {
+            Cart cart = new Cart() ;
+            cart.setUser(user);
+            cartDAOItf.addCart(cart) ;
+        }
         return modelMapper.map(user, RespUserDTO.class);
     }
 

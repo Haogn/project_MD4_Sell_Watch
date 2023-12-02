@@ -9,7 +9,6 @@ import rikkei.academy.dto.request.UserRegisterDTO;
 import rikkei.academy.dto.response.RespCategoryDTO;
 import rikkei.academy.dto.response.RespProductDTO;
 import rikkei.academy.dto.response.RespUserDTO;
-import rikkei.academy.model.entity.User;
 import rikkei.academy.model.service.*;
 
 import javax.servlet.http.Cookie;
@@ -28,8 +27,7 @@ public class ClientController {
     private UserService_ITF userService_itf ;
     @Autowired
     private ProductService_ITF productService_itf;
-    @Autowired
-    private ProductService_IMPL productService_impl ;
+
     @Autowired
     private CategoryService_ITF categoryService_itf;
     // TODO : trang chu
@@ -39,31 +37,27 @@ public class ClientController {
                         @RequestParam(defaultValue = "8") int size){
         List<RespCategoryDTO> listCategory = categoryService_itf.findAll();
         model.addAttribute("listCategory" , listCategory);
-        int totalProduct = productService_impl.countProduct();
+        int totalProduct = productService_itf.countProduct();
         int totalPage = (int) Math.ceil((double) totalProduct /size) ;
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPage", totalPage);
-        List<RespProductDTO> listProduct = productService_impl.findAllProductPage(page,size);
+        List<RespProductDTO> listProduct = productService_itf.findAllProductPage(page,size);
         model.addAttribute("listProduct",listProduct);
         return "client/index";
     }
 
-    // TODO : list product by category
-    @GetMapping("/showProductByCategory/{id}")
-    public String showProductByCategory(@PathVariable Integer id ) {
-        return "client/index";
-    }
+
 
     // TODO : danh sach san pham
     @GetMapping("/list-watch")
     public String showListWatch(Model model,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "8") int size){
-        int totalProduct = productService_impl.countProduct();
+        int totalProduct = productService_itf.countProduct();
         int totalPage = (int) Math.ceil((double) totalProduct /size) ;
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPage", totalPage);
-        List<RespProductDTO> list = productService_impl.findAllProductPage(page,size) ;
+        List<RespProductDTO> list = productService_itf.findAllProductPage(page,size) ;
         model.addAttribute("list",list);
         return "client/list-watch";
     }
@@ -72,14 +66,12 @@ public class ClientController {
     public String showWatchDetail(@PathVariable Integer id , Model model){
         RespProductDTO product = productService_itf.findById(id) ;
         model.addAttribute("product", product);
+        int idCategory = product.getCategory().getCategoryId();
+        List<RespProductDTO> listProductByCategory = productService_itf.findAllProductByCategory(idCategory ) ;
+        model.addAttribute("listProductByCategory",listProductByCategory) ;
         List<RespProductDTO> list = productService_itf.findAll();
         model.addAttribute("list",list);
         return "client/watch-detail";
-    }
-    // TODO : giỏ hàng Cart
-    @GetMapping("/cart")
-    public String cart(){
-        return "client/cart";
     }
 
 
@@ -129,7 +121,7 @@ public class ClientController {
                     }
                 }
             }
-            return "client/index";
+            return "redirect:/";
         }
         return "redirect:/login";
     }
@@ -155,7 +147,7 @@ public class ClientController {
                 }
             }
             userService_itf.create(user);
-            return "client/login";
+            return "redirect:/login";
         }
         return "client/register";
     }

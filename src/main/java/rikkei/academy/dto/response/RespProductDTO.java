@@ -17,6 +17,6 @@ public class RespProductDTO {
     private String image;
     private Double price ;
     private String description ;
-    private Integer quantity;
+    private Integer stock;
     private Boolean status ;
 }

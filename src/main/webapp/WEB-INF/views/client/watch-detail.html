@@ -33,18 +33,16 @@
 
     <!-- main-content-wrap start -->
     <div class="main-content-wrap shop-page section-ptb" >
-        <div class="container">
+        <div class="container" th:object="${product}">
             <div class="row product-details-inner" >
-                <div class="col-lg-5 col-md-6" th:object="${product}" >
-                    <!-- Product Details Left -->
-                        <img alt="" th:src="@{'uploads/product/'+ *{image} }">
-                    <!--// Product Details Left -->
+                <div class="col-lg-5 col-md-6"  >
+                           <img alt="" th:src="@{'/uploads/product/'+ ${product.image} }">
                 </div>
 
                 <div class="col-lg-7 col-md-6">
                     <div class="product-details-view-content">
                         <div class="product-info">
-                            <h3>Ornare sed consequat</h3>
+                            <h3 th:text="${product.productName}"></h3>
                             <div class="product-rating d-flex">
                                 <ul class="d-flex">
                                     <li><a href="#"><i class="icon-star"></i></a></li>
@@ -56,16 +54,17 @@
                                 <a href="#reviews">(<span class="count">1</span> customer review)</a>
                             </div>
                             <div class="price-box">
-                                <span class="new-price">$70.00</span>
-                                <span class="old-price">$78.00</span>
+                                <span class="new-price" th:text="'$' + ${product.price}"></span>
+<!--                                <span class="old-price">$78.00</span>-->
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+                            <p th:text="${product.description}"></p>
 
                             <div class="single-add-to-cart">
-                                <form action="#" class="cart-quantity d-flex">
+                                <form action="/cart" method="post"  class="cart-quantity d-flex">
+                                    <input type="hidden" th:name="productId" th:value="${product.productId}">
                                     <div class="quantity">
                                         <div class="cart-plus-minus">
-                                            <input type="number" class="input-text" name="quantity" value="1" title="Qty">
+                                            <input type="number" class="input-text" th:name="quantity" value="1"  title="Qty">
                                         </div>
                                     </div>
                                     <button class="add-to-cart" type="submit">Add To Cart</button>
@@ -73,23 +72,23 @@
                             </div>
                             <ul class="single-add-actions">
                                 <li class="add-to-wishlist">
-                                    <a href="wishlist.html" class="add_to_wishlist"><i class="icon-heart"></i> Add to Wishlist</a>
+                                    <a href="/wishlist" class="add_to_wishlist"><i class="icon-heart"></i> Add to Wishlist</a>
                                 </li>
                                 <li class="add-to-compare">
-                                    <div class="compare-button"><a href="compare.html"><i class="icon-refresh"></i> Compare</a></div>
+                                    <div class="compare-button"><a href=""><i class="icon-refresh"></i> Compare</a></div>
                                 </li>
                             </ul>
                             <ul class="stock-cont">
-                                <li class="product-sku">Sku: <span>P006</span></li>
+                                <li class="product-sku">Sku: <span th:text="${product.productId}"></span></li>
                                 <li class="product-stock-status">Categories: <a href="#">Butter & Eggs,</a> <a href="#">Cultured Butter</a></li>
                                 <li class="product-stock-status">Tag: <a href="#">Man</a></li>
                             </ul>
                             <div class="share-product-socail-area">
                                 <p>Share this product</p>
                                 <ul class="single-product-share">
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                    <li><a href="#"><i class="fa-brands fa-square-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa-brands fa-square-pinterest"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -200,26 +199,26 @@
                 </div>
             </div>
 
-            <div class="related-product-area section-pt">
-                <div class="row">
+            <div class="related-product-area section-pt" >
+                <div class="row" th:object="${product}">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h3> Related Product</h3>
+                            <h3 th:text="${product.category.categoryName}"></h3>
                         </div>
                     </div>
                 </div>
                 <div class="row product-active-lg-4">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12"  th:each="proca : ${listProductByCategory}">
                         <!-- single-product-area start -->
                         <div class="single-product-area mt-30">
                             <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-02.png}" alt="">
+                                <a th:href="'/watch-detail/'+${proca.productId}">
+                                    <img class="primary-image" th:src="@{'/uploads/product/' +${proca.image}}" alt="">
                                 </a>
                                 <div class="label-product label_new">New</div>
                                 <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
+                                    <a href="/cart" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
+                                    <a href="/wishlist" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
                                     <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
                                 </div>
                                 <ul class="watch-color">
@@ -229,288 +228,19 @@
                                 </ul>
                             </div>
                             <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 002</a></h4>
+                                <h4 class="product-name"><a th:href="'/watch-detail/'+${proca.productId}" th:text="${proca.productName}"></a></h4>
                                 <div class="price-box">
-                                    <span class="new-price">$49.00</span>
-                                    <span class="old-price">$90.00</span>
+                                    <span class="new-price" th:text="'$' +${proca.price}"></span>
+<!--                                    <span class="old-price">$90.00</span>-->
                                 </div>
                             </div>
                         </div>
                         <!-- single-product-area end -->
                     </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-03.png}" alt="">
-                                </a>
 
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 003</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$55.00</span>
-                                    <span class="old-price">$76.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-04.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 004</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$64.00</span>
-                                    <span class="old-price">$72.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-05.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 005</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$44.00</span>
-                                    <span class="old-price">$49.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-01.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 001</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$42.00</span>
-                                    <span class="old-price">$49.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
                 </div>
             </div>
 
-            <div class="related-product-area section-pt">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title">
-                            <h3>Upsell Products</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row product-active-lg-4">
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-12.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 002</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$49.00</span>
-                                    <span class="old-price">$90.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-13.png}" alt="">
-                                </a>
-
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 003</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$55.00</span>
-                                    <span class="old-price">$76.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-14.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 004</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$64.00</span>
-                                    <span class="old-price">$72.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-15.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 005</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$44.00</span>
-                                    <span class="old-price">$49.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- single-product-area start -->
-                        <div class="single-product-area mt-30">
-                            <div class="product-thumb">
-                                <a href="product-details.html">
-                                    <img class="primary-image" th:src="@{/images/product/product-01.png}" alt="">
-                                </a>
-                                <div class="label-product label_new">New</div>
-                                <div class="action-links">
-                                    <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
-                                    <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
-                                    <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
-                                </div>
-                                <ul class="watch-color">
-                                    <li class="twilight"><span></span></li>
-                                    <li  class="portage"><span></span></li>
-                                    <li class="pigeon"><span></span></li>
-                                </ul>
-                            </div>
-                            <div class="product-caption">
-                                <h4 class="product-name"><a href="product-details.html">Simple Product 001</a></h4>
-                                <div class="price-box">
-                                    <span class="new-price">$42.00</span>
-                                    <span class="old-price">$49.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single-product-area end -->
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>

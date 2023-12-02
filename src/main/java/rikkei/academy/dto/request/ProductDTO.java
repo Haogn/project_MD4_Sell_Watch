@@ -25,6 +25,6 @@ public class ProductDTO {
 
     private String description ;
 
-    private Integer quantity;
+    private Integer stock;
     private Boolean status ;
 }

@@ -11,4 +11,7 @@ public interface ProductService_ITF {
     Boolean create(ProductDTO productDTO) ;
     Boolean delete(Integer id) ;
     Boolean update(Integer id , ProductDTO productDTO);
+    List<RespProductDTO> findAllProductByCategory(Integer id  );
+    Integer countProduct();
+    List<RespProductDTO> findAllProductPage(int offset , int size );
 }
