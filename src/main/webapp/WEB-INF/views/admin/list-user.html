@@ -22,16 +22,25 @@
                         <th>User Id</th>
                         <th>UserName</th>
                         <th>Email</th>
-                        <th>chưa nghĩ ra</th>
-                        <th>chưa nghĩ ra</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-
+                    <tr th:each="item : ${list}">
+                        <td th:text="${item.userId}"></td>
+                        <td th:text="${item.userName}"></td>
+                        <td th:text="${item.email}"></td>
+                        <td th:text="${item.status ? 'Active':'Lock'}"></td>
+                        <td>
+                            <a th:href="@{'/lockAccount/'+${item.userId} }"></a>
+                            <i class="fa-solid fa-lock-open"></i>
+<!--                            <i class="fa-solid fa-lock"></i>-->
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-                <a href="" type="button" class="btn btn-outline-dark">Create User</a>
+                <a href="/add-user" type="button" class="btn btn-outline-dark">Create User</a>
             </div>
         </div>
     </div>

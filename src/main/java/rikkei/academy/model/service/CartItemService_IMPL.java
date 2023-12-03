@@ -18,8 +18,10 @@ public class CartItemService_IMPL implements CartItemService_IFT{
     @Autowired
     private CartService_ITF cartService_itf ;
     @Override
-    public List<CartItem> findAll(Integer IdUser) {
-        return cartItemDAO_itf.findAll(IdUser);
+    public List<CartItem> findAllByIdCart() {
+        RespUserDTO userLogin = (RespUserDTO) httpSession.getAttribute("user") ;
+        Cart cart = cartService_itf.findByIdUser(userLogin.getUserId()) ;
+        return cartItemDAO_itf.findAll(cart.getCart_id());
     }
 
     @Override
@@ -36,12 +38,12 @@ public class CartItemService_IMPL implements CartItemService_IFT{
     }
 
     @Override
-    public Boolean update(CartItem item, Integer id) {
-        return cartItemDAO_itf.update(item, id);
+    public Boolean updateQty(Integer qty, Integer id) {
+        return cartItemDAO_itf.updateQty(qty, id);
     }
 
     @Override
-    public void delete(Integer id) {
-        cartItemDAO_itf.delete(id);
+    public Boolean delete(Integer id) {
+        return cartItemDAO_itf.delete(id);
     }
 }

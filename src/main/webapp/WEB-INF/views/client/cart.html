@@ -20,7 +20,7 @@
                 <div class="col-12">
                     <!-- breadcrumb-list start -->
                     <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item active">Cart Page</li>
                     </ul>
                     <!-- breadcrumb-list end -->
@@ -35,49 +35,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="#" class="cart-table">
+                    <form action="" class="cart-table">
                         <div class="table-content table-responsive">
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th class="plantmore-product-thumbnail">Images</th>
-                                    <th class="cart-product-name">Product</th>
+                                    <th class="cart-product-name">Name</th>
                                     <th class="plantmore-product-price">Unit Price</th>
                                     <th class="plantmore-product-quantity">Quantity</th>
-                                    <th class="plantmore-product-subtotal">Total</th>
+                                    <th class="plantmore-product-subtotal">Category</th>
                                     <th class="plantmore-product-remove">Remove</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{/images/other/01.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">Compete Track Tote</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$70.00</span></td>
+                                <tr th:each="item : ${cart}">
+                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{'uploads/product/'+${item.product.image}}" alt="" style="width: 200px; height: 200px;"></a></td>
+                                    <td class="plantmore-product-name"><a href="#" th:text="${item.product.productName}"></a></td>
+                                    <td class="plantmore-product-price"><span class="amount" th:text="'$'+ ${item.product.price}"></span></td>
                                     <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
+                                        <input th:value="${item.quantity}" type="number">
                                     </td>
-                                    <td class="product-subtotal"><span class="amount">$70.00</span></td>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{/images/other/02.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">Vestibulum suscipit</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$60.50</span></td>
-                                    <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$60.50</span></td>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{/images/other/03.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">suscip dictum magna</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$40.50</span></td>
-                                    <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$40.50</span></td>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                    <td class="product-subtotal" th:text="${item.product.category.categoryName}"></td>
+                                    <td class="plantmore-product-remove"><a th:href="@{'/delete-cart/'+ ${item.id}}"><i class="fa fa-times"></i></a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -91,20 +71,14 @@
                                         <a href="shop.html" class=" continue-btn">Continue Shopping</a>
                                     </div>
 
-                                    <div class="coupon">
-                                        <h3>Coupon</h3>
-                                        <p>Enter your coupon code if you have one.</p>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Subtotal <span>$170.00</span></li>
-                                        <li>Total <span>$170.00</span></li>
+<!--                                        <li>Subtotal <span></span></li>-->
+                                        <li>Total <span th:text="'$' + ${total}"></span></li>
                                     </ul>
                                     <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
                                 </div>

@@ -2,12 +2,14 @@ package rikkei.academy.model.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import rikkei.academy.dto.response.RespUserDTO;
 import rikkei.academy.model.entity.Cart;
 import rikkei.academy.model.entity.CartItem;
 import rikkei.academy.model.entity.Category;
 import rikkei.academy.model.entity.Product;
 import rikkei.academy.util.ConnectionBD;
 
+import javax.servlet.http.HttpSession;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,6 +22,8 @@ public class CartItemDAO_IMPL implements CartItemDAO_ITF{
     private ProductDAO_ITF productDAO_itf ;
     @Autowired
     private CartDAO_ITF cartDAOItf;
+    @Autowired
+    private HttpSession httpSession;
     @Override
     public List<CartItem> findAll(Integer idCart) {
         Connection connection = null;
@@ -35,7 +39,8 @@ public class CartItemDAO_IMPL implements CartItemDAO_ITF{
                 Product product = productDAO_itf.findById(rs.getInt("product_id"));
                 cartItem.setProduct(product) ;
                 cartItem.setQuantity(rs.getInt("quantity"));
-                Cart cart = cartDAOItf.findByIdUser(rs.getInt("user_id"));
+                RespUserDTO userLogin = (RespUserDTO) httpSession.getAttribute("user") ;
+                Cart cart = cartDAOItf.findByIdUser(userLogin.getUserId());
                 cartItem.setCart(cart);
                 list.add(cartItem) ;
             }
@@ -60,9 +65,10 @@ public class CartItemDAO_IMPL implements CartItemDAO_ITF{
                 cartItem.setId(rs.getInt("id"));
                 Product product = productDAO_itf.findById(rs.getInt("product_id"));
                 cartItem.setProduct(product) ;
-                Cart cart = cartDAOItf.findByIdUser(rs.getInt("user_id"));
-                cartItem.setCart(cart);
                 cartItem.setQuantity(rs.getInt("quantity"));
+                RespUserDTO userLogin = (RespUserDTO) httpSession.getAttribute("user") ;
+                Cart cart = cartDAOItf.findByIdUser(userLogin.getUserId());
+                cartItem.setCart(cart);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -95,16 +101,14 @@ public class CartItemDAO_IMPL implements CartItemDAO_ITF{
     }
 
     @Override
-    public Boolean update(CartItem item, Integer id) {
+    public Boolean updateQty(Integer qty, Integer id) {
         Boolean isCheck = false;
         Connection connection = null;
         try {
             connection = ConnectionBD.openConnection();
-            CallableStatement callableStatement = connection.prepareCall("{call PROC_UPDATE_CART_ITEM(?,?,?)}");
-            callableStatement.setInt(1,item.getProduct().getProductId());
-            callableStatement.setInt(2, item.getQuantity());
-            callableStatement.setInt(3,item.getCart().getCart_id());
-            callableStatement.setInt(4,id);
+            CallableStatement callableStatement = connection.prepareCall("{call PROC_UPDATE_QUANTITY_CART_ITEM(?,?)}");
+           callableStatement.setInt(1, qty );
+           callableStatement.setInt(2,id);
             int check = callableStatement.executeUpdate();
             if (check > 0 ) {
                 isCheck = true ;
@@ -118,17 +122,22 @@ public class CartItemDAO_IMPL implements CartItemDAO_ITF{
     }
 
     @Override
-    public void delete(Integer id) {
+    public Boolean delete(Integer id) {
+        Boolean isCheck = false;
         Connection connection = null;
         try {
             connection = ConnectionBD.openConnection();
             CallableStatement callableStatement = connection.prepareCall("{call PROC_DELETE_CART_ITEM(?)}");
             callableStatement.setInt(1,id);
-            callableStatement.executeUpdate();
+            int check = callableStatement.executeUpdate();
+            if (check > 0 ) {
+                isCheck = true ;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
             ConnectionBD.closeConnection(connection);
         }
+        return isCheck;
     }
 }

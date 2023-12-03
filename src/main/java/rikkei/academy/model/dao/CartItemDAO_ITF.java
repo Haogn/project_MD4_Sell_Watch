@@ -9,8 +9,8 @@ public interface CartItemDAO_ITF {
     CartItem findById(Integer id) ;
 
     Boolean create(CartItem item) ;
-    Boolean update(CartItem item , Integer id) ;
-    void delete ( Integer id ) ;
+    Boolean updateQty(Integer qty , Integer id) ;
+    Boolean delete ( Integer id ) ;
 
 
 }

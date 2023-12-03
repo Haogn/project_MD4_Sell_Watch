@@ -66,10 +66,10 @@
                     </div>
                     <!-- -->
                     <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input th:field="*{quantity}" type="number" class="form-control" id="quantity" name="quantity"
-                               placeholder="quantity" min="0"/>
-                        <small th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                        <label for="stock">stock</label>
+                        <input th:field="*{stock}" type="number" class="form-control" id="stock" name="stock"
+                               placeholder="stock" min="0"/>
+                        <small th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"
                                class="form-text text-danger"></small>
                     </div>
                     <button type="submit" class="btn btn-outline-dark">Add New</button>

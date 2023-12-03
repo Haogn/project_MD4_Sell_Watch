@@ -5,11 +5,11 @@ import rikkei.academy.model.entity.CartItem;
 import java.util.List;
 
 public interface CartItemService_IFT {
-    List<CartItem> findAll(Integer idUser);
+    List<CartItem> findAllByIdCart();
     CartItem findById(Integer id) ;
 
     Boolean create(CartItem item) ;
-    Boolean update(CartItem item , Integer id) ;
-    void delete ( Integer id ) ;
+    Boolean updateQty(Integer qty , Integer id) ;
+    Boolean delete ( Integer id ) ;
 
 }

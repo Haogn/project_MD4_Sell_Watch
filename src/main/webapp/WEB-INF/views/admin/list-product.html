@@ -25,7 +25,7 @@
                         <th style="width: 160px">Image</th>
                         <th style="width: 120px">Price</th>
                         <th style="width: 400px">Description</th>
-                        <th style="width: 120px">Quantity</th>
+                        <th style="width: 120px">Stock</th>
                         <th style="width: 120px">Status</th>
                         <th style="width: 120px">Action</th>
                     </tr>
@@ -40,7 +40,7 @@
                         </td>
                         <td th:text="${item.price}"></td>
                         <td th:text="${item.description}"></td>
-                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.stock}"></td>
                         <td th:text="${item.status}?'Open':'Close'"></td>
                         <td>
                             <a th:href="@{'/edit-product/' + ${item.productId}}" type="button" class="btn btn-outline-success">

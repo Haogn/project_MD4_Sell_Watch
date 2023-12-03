@@ -26,24 +26,51 @@ public class CartController {
     private ProductService_ITF productService_itf ;
     @Autowired
     HttpSession httpSession ;
+
+    // create
     @GetMapping("")
     public String cart(Model model){
-        RespUserDTO userLogin =(RespUserDTO) httpSession.getAttribute("user") ;
-        List<CartItem> cart =  cartItemService_ift.findAll(userLogin.getUserId()) ;
+        List<CartItem> cart =  cartItemService_ift.findAllByIdCart() ;
+        double total = 0;
+        for ( CartItem ca : cart) {
+            total += ca.getQuantity() * ca.getProduct().getPrice();
+        }
+        model.addAttribute("total", total) ;
         model.addAttribute("cart", cart) ;
         return "client/cart";
     }
 
     @PostMapping("")
-    public String postCart(@RequestParam("productId") Integer producId,
+    public String postCart(@RequestParam("productId") Integer productId,
                            @RequestParam("quantity") Integer quantity ) {
         ModelMapper modelMapper = new ModelMapper() ;
-        RespProductDTO productDTO = productService_itf.findById(producId) ;
-        CartItem cartItem = new CartItem() ;
-        cartItem.setProduct(modelMapper.map(productDTO, Product.class));
-        cartItem.setQuantity(quantity);
-//        cartItem.setCart();
-        cartItemService_ift.create(cartItem) ;
+        RespProductDTO productDTO = productService_itf.findById(productId) ;
+//        // kiểm tra xem sản phẩm có trong giỏ hanhg chưa
+        List<CartItem> cart =  cartItemService_ift.findAllByIdCart() ;
+        CartItem existingCartItem = cartItemService_ift.findById(productId) ;
+        for (CartItem ca : cart) {
+            if (ca.equals(existingCartItem)) {
+                int newQty = existingCartItem.getQuantity() + quantity ;
+                int idCartItem = existingCartItem.getId();
+                cartItemService_ift.updateQty(newQty,idCartItem );
+                break;
+            } else {
+                CartItem cartItem = new CartItem() ;
+                cartItem.setProduct(modelMapper.map(productDTO, Product.class));
+                cartItem.setQuantity(quantity);
+                cartItemService_ift.create(cartItem) ;
+                break;
+            }
+        }
         return "redirect:/cart";
+    }
+
+    @GetMapping("/delete-cart/{id}")
+    public String deleteCart(@PathVariable Integer id ) {
+        Boolean isDelete = cartItemService_ift.delete(id);
+        if ( isDelete) {
+            return "redirect:/cart";
+        }
+        return "client/cart";
     }
 }

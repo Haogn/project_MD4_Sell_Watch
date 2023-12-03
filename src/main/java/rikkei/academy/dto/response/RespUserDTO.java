@@ -14,7 +14,6 @@ public class RespUserDTO {
     private int userId ;
     private String userName ;
     private String email ;
-    private String password ;
     private Boolean status ;
     private Role role = Role.USER;
 }
