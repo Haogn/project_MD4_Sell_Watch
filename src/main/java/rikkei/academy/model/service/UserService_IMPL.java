@@ -11,6 +11,7 @@ import rikkei.academy.model.dao.UserDAO_IMPL;
 import rikkei.academy.model.dao.UserDAO_ITF;
 import rikkei.academy.model.entity.Cart;
 import rikkei.academy.model.entity.User;
+import rikkei.academy.util.Role;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -25,8 +26,6 @@ public class UserService_IMPL implements UserService_ITF{
     private UserDAO_ITF userDAO_itf;
     @Autowired
     private CartDAO_ITF cartDAOItf;
-    @Autowired
-    private HttpSession httpSession ;
 
     @Override
     public List<RespUserDTO> findAll() {
@@ -61,7 +60,11 @@ public class UserService_IMPL implements UserService_ITF{
 
     @Override
     public Boolean update(Integer id) {
-        return userDAO_itf.Update(id);
+        User user = userDAO_itf.findById(id) ;
+        if (user != null && user.getRole() == Role.ADMIN) {
+            return userDAO_itf.Update(id);
+        }
+        return false;
     }
 
     @Override
@@ -79,8 +82,9 @@ public class UserService_IMPL implements UserService_ITF{
     }
 
     @Override
-    public RespUserDTO loginAdmin(UserRegisterDTO user) {
+    public RespUserDTO loginAdmin(UserRegisterDTO userRegisterDTO) {
         ModelMapper modelMapper = new ModelMapper();
+        User user = userDAO_itf.loginAdmin(modelMapper.map(userRegisterDTO,User.class));
         return modelMapper.map(user, RespUserDTO.class);
     }
 }

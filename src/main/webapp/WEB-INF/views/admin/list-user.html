@@ -33,9 +33,9 @@
                         <td th:text="${item.email}"></td>
                         <td th:text="${item.status ? 'Active':'Lock'}"></td>
                         <td>
-                            <a th:href="@{'/lockAccount/'+${item.userId} }"></a>
-                            <i class="fa-solid fa-lock-open"></i>
-<!--                            <i class="fa-solid fa-lock"></i>-->
+                            <a th:href="@{'/lockAccount/'+${item.userId} }">
+                                <i th:class="${item.status ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock'}"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>

@@ -61,6 +61,11 @@ public class ClientController {
         model.addAttribute("list",list);
         return "client/list-watch";
     }
+
+    @PostMapping("")
+    public String postSortBySelect(){
+        return "client/list-watch" ;
+    }
     // TODO : chi tiet san pham
     @GetMapping("/watch-detail/{id}")
     public String showWatchDetail(@PathVariable Integer id , Model model){
@@ -152,6 +157,10 @@ public class ClientController {
         return "client/register";
     }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute("user");
+        return "redirect:/home";
+    }
 
 }

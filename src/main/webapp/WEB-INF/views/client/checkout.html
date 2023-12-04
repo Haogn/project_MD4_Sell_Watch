@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from htmldemo.net/ruiz/ruiz/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Nov 2023 01:43:58 GMT -->
+<th:block th:insert="layout/client/head.html"></th:block>
+
+<body>
+
+<div class="main-wrapper">
+
+    <!--  Header Start -->
+   <th:block th:insert="layout/client/header.html"></th:block>
+    <!--  Header Start -->
+
+    <!-- breadcrumb-area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- breadcrumb-list start -->
+                    <ul class="breadcrumb-list">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Checkout Page</li>
+                    </ul>
+                    <!-- breadcrumb-list end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area end -->
+
+    <!-- main-content-wrap start -->
+    <div class="main-content-wrap section-ptb checkout-page">
+        <div class="container">
+            <!-- checkout-details-wrapper start -->
+            <div class="checkout-details-wrapper">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <!-- billing-details-wrap start -->
+                        <div class="billing-details-wrap">
+                            <form action="/cart/history" method="post" th:object="${orders}">
+                                <h3 class="shoping-checkboxt-title">Billing Details</h3>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p class="single-form-row">
+                                            <label>Consignee Name<span class="required">*</span></label>
+                                            <input th:field="*{consigneeName}" type="text" name="Consignee Name">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="single-form-row">
+                                            <label>Consignee Phone<span class="required">*</span></label>
+                                            <input th:field="*{consigneePhone}" type="text" name="Consignee Phone">
+                                        </p>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <p class="single-form-row">
+                                            <label>Delivery Address <span class="required">*</span></label>
+                                            <input th:field="*{address}" type="text" placeholder="Delivery Address " name="address">
+                                        </p>
+                                    </div>
+                                </div>
+                                <button type="submit" href="/cart/history" class="button1" >End Pay</button>
+                            </form>
+                        </div>
+                        <!-- billing-details-wrap end -->
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <!-- your-order-wrapper start -->
+                        <div class="your-order-wrapper">
+                            <h3 class="shoping-checkboxt-title">Your Order</h3>
+                            <!-- your-order-wrap start-->
+                            <div class="your-order-wrap">
+                                <!-- your-order-table start -->
+                                <div class="your-order-table table-responsive">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-total">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="cart_item" th:each="item : ${cart}">
+                                            <td class="product-name" th:text="${item.product.productName} + ' × ' + ${item.quantity}">
+                                            </td>
+                                            <td class="product-total">
+                                                <span class="amount" th:text="'£' + ${item.product.price}"></span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr class="cart-subtotal">
+                                            <th>Cart Subtotal</th>
+                                            <td><span class="amount" th:text="'£'+${subtotal}"></span></td>
+                                        </tr>
+                                        <tr class="shipping">
+                                            <th>Shipping</th>
+                                            <td>
+                                                <span class="amount">£5.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Order Total</th>
+                                            <td><strong><span class="amount" th:text="'£' + ${total}"></span></strong>
+                                            </td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- your-order-table end -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- checkout-details-wrapper end -->
+        </div>
+    </div>
+    <!-- main-content-wrap end -->
+
+    <!-- footer Start -->
+    <th:block th:insert="layout/client/footer.html"></th:block>
+    <!-- footer End -->
+
+</div>
+
+<!-- JS
+============================================ -->
+
+<th:block th:insert="layout/client/script.html"></th:block>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/ruiz/ruiz/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Nov 2023 01:43:58 GMT -->
+</html>

@@ -39,7 +39,7 @@ public class AdminUserController {
         if(!result.hasErrors()) {
             isCheck = userService_itf.create(userRegisterDTO);
             if(isCheck) {
-                return "redirect:/list-category";
+                return "redirect:/list-user";
             }
         }
         return "admin/add-user";
